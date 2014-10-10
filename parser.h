@@ -43,10 +43,14 @@ class AlgParser
 	bool sort(const string&);
 	
 	private:
-	vector<AlgString> lex_string_vector;
+	vector<AlgString> string_vector;
 	int input_size;
+	int heap_size;
 	void mergesort(const int&, const int&);
 	void merge(const int&, const int&, const int&);
+	void heapsort();
+	void build_heap();
+	void heapify(const int&);
 	void quicksort(const int&, const int&);
 	int partition(const int&, const int&);
 };
