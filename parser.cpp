@@ -30,7 +30,7 @@ int AlgString::cmp(AlgString s)
 
 void AlgParser::Parse(const char* input_file_name)
 {
-	lex_string_vector.clear();
+	string_vector.clear();
 	fstream fin;
 	fin.open(input_file_name, fstream::in);
 	if (!fin.is_open()){
@@ -158,7 +158,7 @@ void AlgParser::merge(const int& left, const int& mid, const int& right){
 
 void AlgParser::heapsort(){
 	build_heap();
-	for (int i = input_size - 1; i > 0; i--)){
+	for (int i = input_size - 1; i > 0; i--){
 		swap(0, i);
 		heap_size--;
 		heapify(0);
@@ -167,16 +167,16 @@ void AlgParser::heapsort(){
 
 void AlgParser::build_heap(){
 	heap_size = input_size;
-	for (int i = input_size/2; i >=0; i--) heapify();
+	for (int i = input_size/2; i >=0; i--) heapify(i);
 }
 
 void AlgParser::heapify(const int& i){
 	int l = 2 * i;
 	int r = 2 * i + 1;
 	int largest;
-	if (l < heap_size && lex_string_vector[l] > string_vector[i]) largest = l;
+	if (l < heap_size && string_vector[l] > string_vector[i]) largest = l;
 	else largest = i;
-	if (r < heap_size && lex_string_vector[r] > string_vector[largest]) largest = r;
+	if (r < heap_size && string_vector[r] > string_vector[largest]) largest = r;
 	if (largest != i){
 		swap(i, largest);
 		heapify(largest);
