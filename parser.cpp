@@ -96,9 +96,9 @@ void AlgParser::swap(const int& ith, const int& jth)
 	string_vector[jth].m_word_number = temp.m_word_number;
 }
 
-bool AlgParser::sort(const string& alg)
+bool AlgParser::sort(const char* alg)
 {
-	switch (alg[0]){
+	switch (*alg){
 		case 'i':
 			//insertion sort
 			for (int i = 1; i < input_size; i++){
