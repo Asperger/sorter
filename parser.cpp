@@ -100,6 +100,7 @@ bool AlgParser::sort(const string& alg)
 {
 	switch (alg[0]){
 		case 'i':
+			//insertion sort
 			for (int i = 1; i < input_size; i++){
 				int j = i;
 				while (j > 0 && lex_string_vector[j-1] > lex_string_vector[j]){
@@ -108,16 +109,17 @@ bool AlgParser::sort(const string& alg)
 				}
 			}
 			break;
-		case 'm': 
-			
+		case 'm':
+			//merge sort
 			break;
-		case 'h': 
-			
+		case 'h':
+			//heap sort
 			break;
-		case 'q': 
-			
+		case 'q':
+			//quick sort
+			quicksort(0, input_size-1);
 			break;
-		case 'b': 
+		case 'b':
 			int l = input_size;
 			while (l != 0){
 				int n = 0;
@@ -133,4 +135,24 @@ bool AlgParser::sort(const string& alg)
 		default: return false;
 	}
 	return true;
+}
+
+void AlgParser::quicksort(const int& left, const int& right){
+	if (left < right){
+		int p = partition(left, right);
+		quicksort(left, p);
+		quicksort(p+1, right);
+	}
+}
+
+int AlgParser::partition(const int& left, const int& right){
+	AlgString temp = lex_string_vector[left];
+	int i = left - 1;
+	int j = right + 1;
+	while (true){
+		while (lex_string_vector[i] < temp) i++;
+		while (lex_string_vector[j] > temp) j--;
+		if (i < j) swap(i, j);
+		else return j;
+	}
 }
