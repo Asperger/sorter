@@ -25,7 +25,7 @@ int AlgString::cmp(AlgString s)
 		}
 	if (m_string.length() > s.m_string.length()) return 1;
 	if (m_string.length() < s.m_string.length()) return -1;
-    return 0;
+	return 0;
 }
 
 void AlgParser::Parse(const char* input_file_name)
@@ -34,9 +34,9 @@ void AlgParser::Parse(const char* input_file_name)
 	fstream fin;
 	fin.open(input_file_name, fstream::in);
 	if (!fin.is_open()){
-       cout << "Input file open error" << endl;
-       exit(0);
-       }
+		cout << "Input file open error" << endl;
+		exit(0);
+	}
 	int word_count = 0;
 	string s;
 	while (!fin.eof()){
@@ -44,6 +44,7 @@ void AlgParser::Parse(const char* input_file_name)
 		lex_string_vector.push_back(AlgString(s, ++word_count));
 		}
 	fin.close();
+	input_size = lex_string_vector.size();
 }
 
 void AlgParser::Write(const char* output_file_name)
@@ -51,69 +52,85 @@ void AlgParser::Write(const char* output_file_name)
 	fstream fout;
 	fout.open(output_file_name, fstream::out);
 	if (!fout.is_open()){
-       cout << "Output file open error" << endl;
-       exit(0);
-       }
-    fout << lex_string_vector.size() << endl;
-    for (int i = 0; i < lex_string_vector.size(); i++)
-    	fout << QueryString(i) << " " << QueryWordNumber(i) << endl;
-    fout.close();
+		cout << "Output file open error" << endl;
+		exit(0);
+		}
+	fout << input_size << endl;
+	for (int i = 0; i < input_size; i++)
+		fout << QueryString(i) << " " << QueryWordNumber(i) << endl;
+	fout.close();
 }
 
 string AlgParser::QueryString(const int& ith)
 {
-	if(ith >= (signed)lex_string_vector.size()){
+	if (ith >= (signed)input_size){
 		printf("The querying of index %d exceeds the number of strings\n", ith);
 		exit(0);
-		}
-	if(ith < 0){
+	}
+	if (ith < 0){
 		printf("The querying index can't be negative\n");
 		exit(0);
-		}
+	}
 	return lex_string_vector[ith].m_string;
 }
 
 int AlgParser::QueryWordNumber(const int& ith)
 {
-    if(ith >= (signed)lex_string_vector.size()){
-        printf("The querying of index %d exceeds the number of strings\n", ith);
+	if (ith >= (signed)input_size){
+		printf("The querying of index %d exceeds the number of strings\n", ith);
 		exit(0);
-    }
-    if(ith < 0){
-        printf("The querying index can't be negative\n");
+	}
+	if (ith < 0){
+		printf("The querying index can't be negative\n");
 		exit(0);
-    }
+	}
 	return lex_string_vector[ith].m_word_number;
 }
 
 void AlgParser::swap(const int& ith, const int& jth)
 {
-     AlgString temp(lex_string_vector[ith].m_string, lex_string_vector[ith].m_word_number);
-     lex_string_vector[ith].m_string = lex_string_vector[jth].m_string;
-     lex_string_vector[ith].m_word_number = lex_string_vector[jth].m_word_number;
-     lex_string_vector[jth].m_string = temp.m_string;
-     lex_string_vector[jth].m_word_number = temp.m_word_number;
+	AlgString temp(lex_string_vector[ith].m_string, lex_string_vector[ith].m_word_number);
+	lex_string_vector[ith].m_string = lex_string_vector[jth].m_string;
+	lex_string_vector[ith].m_word_number = lex_string_vector[jth].m_word_number;
+	lex_string_vector[jth].m_string = temp.m_string;
+	lex_string_vector[jth].m_word_number = temp.m_word_number;
 }
 
 bool AlgParser::sort(const string& alg)
 {
-     switch (alg[0]){
-            case 'i':
-                  
-                 break;
-            case 'm': 
-                 
-                 break;
-            case 'h': 
-                 
-                 break;
-            case 'q': 
-                 
-                 break;
-            case 'b': 
-                 
-                 break;
-            default: return false;
-            }
-     return true;
+	switch (alg[0]){
+		case 'i':
+			for (int i = 1; i < input_size; i++){
+				int j = i;
+				while (j > 0 && lex_string_vector[j-1] > lex_string_vector[j]){
+					swap(j, j-1);
+					j--;
+				}
+			}
+			break;
+		case 'm': 
+			
+			break;
+		case 'h': 
+			
+			break;
+		case 'q': 
+			
+			break;
+		case 'b': 
+			int l = input_size;
+			while (l != 0){
+				int n = 0;
+				for (int i = 0; i < l; i++){
+					if (lex_string_vector[i-1] > lex_string_vector[i]){
+						swap(i, i-1);
+						n = i;
+					}
+				}
+				l = n;
+			}
+			break;
+		default: return false;
+	}
+	return true;
 }
