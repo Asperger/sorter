@@ -8,7 +8,7 @@ void AlgTimer::Begin(void)
 
 double AlgTimer::End(void)
 {
-	return ( (double)( clock() - begin_clock ) / (double)CLOCKS_PER_SEC );
+	return ((double)(clock() - begin_clock) / (double)CLOCKS_PER_SEC);
 }
 
 int AlgString::cmp(AlgString s)
@@ -41,10 +41,10 @@ void AlgParser::Parse(const char* input_file_name)
 	string s;
 	while (!fin.eof()){
 		fin >> s;
-		lex_string_vector.push_back(AlgString(s, ++word_count));
+		string_vector.push_back(AlgString(s, ++word_count));
 		}
 	fin.close();
-	input_size = lex_string_vector.size();
+	input_size = string_vector.size();
 }
 
 void AlgParser::Write(const char* output_file_name)
@@ -71,7 +71,7 @@ string AlgParser::QueryString(const int& ith)
 		printf("The querying index can't be negative\n");
 		exit(0);
 	}
-	return lex_string_vector[ith].m_string;
+	return string_vector[ith].m_string;
 }
 
 int AlgParser::QueryWordNumber(const int& ith)
@@ -84,16 +84,16 @@ int AlgParser::QueryWordNumber(const int& ith)
 		printf("The querying index can't be negative\n");
 		exit(0);
 	}
-	return lex_string_vector[ith].m_word_number;
+	return string_vector[ith].m_word_number;
 }
 
 void AlgParser::swap(const int& ith, const int& jth)
 {
-	AlgString temp(lex_string_vector[ith].m_string, lex_string_vector[ith].m_word_number);
-	lex_string_vector[ith].m_string = lex_string_vector[jth].m_string;
-	lex_string_vector[ith].m_word_number = lex_string_vector[jth].m_word_number;
-	lex_string_vector[jth].m_string = temp.m_string;
-	lex_string_vector[jth].m_word_number = temp.m_word_number;
+	AlgString temp(string_vector[ith].m_string, string_vector[ith].m_word_number);
+	string_vector[ith].m_string = string_vector[jth].m_string;
+	string_vector[ith].m_word_number = string_vector[jth].m_word_number;
+	string_vector[jth].m_string = temp.m_string;
+	string_vector[jth].m_word_number = temp.m_word_number;
 }
 
 bool AlgParser::sort(const string& alg)
@@ -103,7 +103,7 @@ bool AlgParser::sort(const string& alg)
 			//insertion sort
 			for (int i = 1; i < input_size; i++){
 				int j = i;
-				while (j > 0 && lex_string_vector[j-1] > lex_string_vector[j]){
+				while (j > 0 && string_vector[j-1] > string_vector[j]){
 					swap(j, j-1);
 					j--;
 				}
@@ -126,7 +126,7 @@ bool AlgParser::sort(const string& alg)
 			while (l != 0){
 				int n = 0;
 				for (int i = 0; i < l; i++){
-					if (lex_string_vector[i-1] > lex_string_vector[i]){
+					if (string_vector[i-1] > string_vector[i]){
 						swap(i, i-1);
 						n = i;
 					}
@@ -154,15 +154,15 @@ void AlgParser::merge(const int& left, const int& mid, const int& right){
 	vector<AlgString> L;
 	vector<AlgString> R;
 	int i, j, k;
-	for (i = 0; i < ln; i++) L.push_back(lex_string_vector[left + i - 1]);
-	for (j = 0; j < rn; j++) R.push_back(lex_string_vector[mid + j]);
+	for (i = 0; i < ln; i++) L.push_back(string_vector[left + i - 1]);
+	for (j = 0; j < rn; j++) R.push_back(string_vector[mid + j]);
 	i = 0;
 	j = 0;
 	for (k = left; k <= right; k++){
-		if (j == R.size()) lex_string_vector[k] = L[i++];
-		else if (i == L.size()) lex_string_vector[k] = R[j++];
-		else if (L[i] <= R[j]) lex_string_vector[k] = L[i++];
-		else lex_string_vector[k] = R[j++];
+		if (j == R.size()) string_vector[k] = L[i++];
+		else if (i == L.size()) string_vector[k] = R[j++];
+		else if (L[i] <= R[j]) string_vector[k] = L[i++];
+		else string_vector[k] = R[j++];
 	}
 }
 
@@ -184,9 +184,9 @@ void AlgParser::heapify(const int& i){
 	int l = 2 * i;
 	int r = 2 * i + 1;
 	int largest;
-	if (l < heap_size && lex_string_vector[l] > lex_string_vector[i]) largest = l;
+	if (l < heap_size && lex_string_vector[l] > string_vector[i]) largest = l;
 	else largest = i;
-	if (r < heap_size && lex_string_vector[r] > lex_string_vector[largest]) largest = r;
+	if (r < heap_size && lex_string_vector[r] > string_vector[largest]) largest = r;
 	if (largest != i){
 		swap(i, largest);
 		heapify(largest);
@@ -202,12 +202,12 @@ void AlgParser::quicksort(const int& left, const int& right){
 }
 
 int AlgParser::partition(const int& left, const int& right){
-	AlgString temp = lex_string_vector[left];
+	AlgString temp = string_vector[left];
 	int i = left - 1;
 	int j = right + 1;
 	while (true){
-		while (lex_string_vector[i] < temp) i++;
-		while (lex_string_vector[j] > temp) j--;
+		while (string_vector[i] < temp) i++;
+		while (string_vector[j] > temp) j--;
 		if (i < j) swap(i, j);
 		else return j;
 	}
