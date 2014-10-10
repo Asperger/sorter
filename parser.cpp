@@ -111,9 +111,11 @@ bool AlgParser::sort(const string& alg)
 			break;
 		case 'm':
 			//merge sort
+			mergesort(0, input_size-1);
 			break;
 		case 'h':
 			//heap sort
+			heapsort();
 			break;
 		case 'q':
 			//quick sort
@@ -135,6 +137,60 @@ bool AlgParser::sort(const string& alg)
 		default: return false;
 	}
 	return true;
+}
+
+void AlgParser::mergesort(const int& left, const int& right){
+	if (left < right){
+		int mid = (left + right)/2;
+		mergesort(left, mid);
+		mergesort(mid+1, right);
+		merge(left, mid, right);
+	}
+}
+
+void AlgParser::merge(const int& left, const int& mid, const int& right){
+	int ln = mid - left + 1;
+	int rn = right - mid;
+	vector<AlgString> L;
+	vector<AlgString> R;
+	int i, j, k;
+	for (i = 0; i < ln; i++) L.push_back(lex_string_vector[left + i - 1]);
+	for (j = 0; j < rn; j++) R.push_back(lex_string_vector[mid + j]);
+	i = 0;
+	j = 0;
+	for (k = left; k <= right; k++){
+		if (j == R.size()) lex_string_vector[k] = L[i++];
+		else if (i == L.size()) lex_string_vector[k] = R[j++];
+		else if (L[i] <= R[j]) lex_string_vector[k] = L[i++];
+		else lex_string_vector[k] = R[j++];
+	}
+}
+
+void AlgParser::heapsort(){
+	build_heap();
+	for (int i = input_size - 1; i > 0; i--)){
+		swap(0, i);
+		heap_size--;
+		heapify(0);
+	}
+}
+
+void AlgParser::build_heap(){
+	heap_size = input_size;
+	for (int i = input_size/2; i >=0; i--) heapify();
+}
+
+void AlgParser::heapify(const int& i){
+	int l = 2 * i;
+	int r = 2 * i + 1;
+	int largest;
+	if (l < heap_size && lex_string_vector[l] > lex_string_vector[i]) largest = l;
+	else largest = i;
+	if (r < heap_size && lex_string_vector[r] > lex_string_vector[largest]) largest = r;
+	if (largest != i){
+		swap(i, largest);
+		heapify(largest);
+	}
 }
 
 void AlgParser::quicksort(const int& left, const int& right){
