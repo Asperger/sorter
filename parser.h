@@ -40,7 +40,7 @@ class AlgParser
 	// Swap the contents of ith and jth strings
 	void swap(const int&, const int&);
 	// Sort the vector with assigned algorithm
-	bool sort(const string&);
+	bool sort(const char*);
 	
 	private:
 	vector<AlgString> string_vector;
