@@ -1,10 +1,7 @@
 #include "parser.h"
 // sorter.exe input_file output_file algorithm_type
 int main(int argc, char** argv){ 
-	if (argc != 4) {
-		cout << "Illegal command line" << endl;
-		return 1;
-	}
+	if (argc != 4){cout << "Illegal command line" << endl; return 1;}
 	// Declare the functional objects 
 	AlgParser p; 
 	AlgTimer t; 
@@ -14,7 +11,7 @@ int main(int argc, char** argv){
 	t.Begin(); 
 	// Start sorting
 	if (p.sort(argv[3])) cout << "Sorting complete" << endl;
-	else cout << "Illegal algorithm" << endl;
+	else {cout << "Illegal algorithm" << endl; return 1;}
 	// Write the result
 	p.Write(argv[2]);
 	// Display the accumulated time 

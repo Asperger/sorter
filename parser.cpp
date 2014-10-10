@@ -18,8 +18,8 @@ int AlgString::cmp(AlgString s)
 	while (i < leng && j < leng){
 		while (!isalpha(m_string[i])) i++;
 		while (!isalpha(s.m_string[j])) j++;
-		if (m_string[i] > s.m_string[j]) return 1;
-		if (m_string[i] < s.m_string[j]) return -1;
+		if (tolower(m_string[i]) > tolower(s.m_string[j])) return 1;
+		if (tolower(m_string[i]) < tolower(s.m_string[j])) return -1;
 		i++;
 		j++;
 		}
@@ -41,7 +41,8 @@ void AlgParser::Parse(const char* input_file_name)
 	string s;
 	while (!fin.eof()){
 		fin >> s;
-		string_vector.push_back(AlgString(s, ++word_count));
+		if (s.find_first_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") != string::npos)
+			string_vector.push_back(AlgString(s, ++word_count));
 		}
 	fin.close();
 	input_size = string_vector.size();
@@ -144,8 +145,8 @@ void AlgParser::merge(const int& left, const int& mid, const int& right){
 	vector<AlgString> L;
 	vector<AlgString> R;
 	int i, j, k;
-	for (i = 0; i < ln; i++) L.push_back(string_vector[left + i - 1]);
-	for (j = 0; j < rn; j++) R.push_back(string_vector[mid + j]);
+	for (i = 0; i < ln; i++) L.push_back(string_vector[left + i]);
+	for (j = 0; j < rn; j++) R.push_back(string_vector[mid + j + 1]);
 	i = 0;
 	j = 0;
 	for (k = left; k <= right; k++){
@@ -193,24 +194,30 @@ void AlgParser::quicksort(const int& left, const int& right){
 
 int AlgParser::partition(const int& left, const int& right){
 	AlgString temp = string_vector[left];
-	int i = left - 1;
-	int j = right + 1;
-	while (true){
-		while (string_vector[i] < temp) i++;
-		while (string_vector[j] > temp) j--;
+	int i = left;
+	int j = right;
+	while (i < j){
+		while (string_vector[i] < temp) {
+			if (i == right) break;
+			else i++;
+		}
+		while (string_vector[j] > temp) {
+			if (j == left) break;
+			else j--;
+		}
 		if (i < j) swap(i, j);
-		else return j;
 	}
+	return j;
 }
 
 void AlgParser::bubblesort(){
 	int l = input_size;
 	while (l != 0){
 		int n = 0;
-		for (int i = 0; i < l; i++){
-		if (string_vector[i-1] > string_vector[i]){
-			swap(i, i-1);
-			n = i;
+		for (int i = 1; i < l; i++){
+			if (string_vector[i-1] > string_vector[i]){
+				swap(i, i-1);
+				n = i;
 			}
 		}
 		l = n;
