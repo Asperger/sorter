@@ -37,15 +37,14 @@ class AlgParser
 	string QueryString(const int&);
 	// Return the number of the ith string in the file
 	int QueryWordNumber(const int&);
-	// Swap the contents of ith and jth strings
-	void swap(const int&, const int&);
-	// Sort the vector with assigned algorithm
+	
 	bool sort(const char*);
 	
 	private:
 	vector<AlgString> string_vector;
 	int input_size;
 	int heap_size;
+	void swap(const int&, const int&);
 	void insertionsort();
 	void mergesort(const int&, const int&);
 	void merge(const int&, const int&, const int&);
@@ -61,7 +60,7 @@ class AlgTimer
 {
 	public:
 	AlgTimer(){};
-	// Strat the timer
+	// Start the timer
 	void Begin();
 	// Return the accumulated time in seconds
 	double End();
