@@ -31,7 +31,7 @@ class AlgParser
 	AlgParser(){};
 	// Specify the parsing file name and then parse the file
 	void Parse(const char*);
-	// Write the sorted array to the specified file
+	// Write the sorted data to the specified file
 	void Write(const char*);
 	// Return the ith string in the file
 	string QueryString(const int&);
@@ -44,16 +44,18 @@ class AlgParser
 	
 	private:
 	vector<AlgString> lex_string_vector;
+	int input_size;
 };
 
 class AlgTimer
 {
 	public:
-	long begin_clock;
-	
 	AlgTimer(){};
 	// Strat the timer
 	void Begin();
 	// Return the accumulated time in seconds
 	double End();
+	
+	private:
+	long begin_clock;
 };
