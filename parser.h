@@ -46,6 +46,7 @@ class AlgParser
 	vector<AlgString> string_vector;
 	int input_size;
 	int heap_size;
+	void insertionsort();
 	void mergesort(const int&, const int&);
 	void merge(const int&, const int&, const int&);
 	void heapsort();
@@ -53,6 +54,7 @@ class AlgParser
 	void heapify(const int&);
 	void quicksort(const int&, const int&);
 	int partition(const int&, const int&);
+	void bubblesort();
 };
 
 class AlgTimer
