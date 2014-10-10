@@ -100,43 +100,33 @@ bool AlgParser::sort(const char* alg)
 {
 	switch (*alg){
 		case 'i':
-			//insertion sort
-			for (int i = 1; i < input_size; i++){
-				int j = i;
-				while (j > 0 && string_vector[j-1] > string_vector[j]){
-					swap(j, j-1);
-					j--;
-				}
-			}
+			insertionsort();
 			break;
 		case 'm':
-			//merge sort
 			mergesort(0, input_size-1);
 			break;
 		case 'h':
-			//heap sort
 			heapsort();
 			break;
 		case 'q':
-			//quick sort
 			quicksort(0, input_size-1);
 			break;
 		case 'b':
-			int l = input_size;
-			while (l != 0){
-				int n = 0;
-				for (int i = 0; i < l; i++){
-					if (string_vector[i-1] > string_vector[i]){
-						swap(i, i-1);
-						n = i;
-					}
-				}
-				l = n;
-			}
+			bubblesort();
 			break;
 		default: return false;
 	}
 	return true;
+}
+
+void AlgParser::insertionsort(){
+	for (int i = 1; i < input_size; i++){
+		int j = i;
+		while (j > 0 && string_vector[j-1] > string_vector[j]){
+			swap(j, j-1);
+			j--;
+		}
+	}
 }
 
 void AlgParser::mergesort(const int& left, const int& right){
@@ -210,5 +200,19 @@ int AlgParser::partition(const int& left, const int& right){
 		while (string_vector[j] > temp) j--;
 		if (i < j) swap(i, j);
 		else return j;
+	}
+}
+
+void AlgParser::bubblesort(){
+	int l = input_size;
+	while (l != 0){
+		int n = 0;
+		for (int i = 0; i < l; i++){
+		if (string_vector[i-1] > string_vector[i]){
+			swap(i, i-1);
+			n = i;
+			}
+		}
+		l = n;
 	}
 }
