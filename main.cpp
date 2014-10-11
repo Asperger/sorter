@@ -16,5 +16,6 @@ int main(int argc, char** argv){
 	p.Write(argv[2]);
 	// Display the accumulated time 
 	cout << "The execution spends " << t.End() << " seconds" << endl; 
+	//getchar();
 	return 1; 
 } 

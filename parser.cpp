@@ -1,5 +1,6 @@
 #include "parser.h"
 #include <cctype>
+#include <cassert>
 
 void AlgTimer::Begin(void)
 {
@@ -58,38 +59,14 @@ void AlgParser::Write(const char* output_file_name)
 		}
 	fout << input_size << endl;
 	for (int i = 0; i < input_size; i++)
-		fout << QueryString(i) << " " << QueryWordNumber(i) << endl;
+		fout << string_vector[i].m_string << " " << string_vector[i].m_word_number << endl;
 	fout.close();
-}
-
-string AlgParser::QueryString(const int& ith)
-{
-	if (ith >= (signed)input_size){
-		printf("The querying of index %d exceeds the number of strings\n", ith);
-		exit(0);
-	}
-	if (ith < 0){
-		printf("The querying index can't be negative\n");
-		exit(0);
-	}
-	return string_vector[ith].m_string;
-}
-
-int AlgParser::QueryWordNumber(const int& ith)
-{
-	if (ith >= (signed)input_size){
-		printf("The querying of index %d exceeds the number of strings\n", ith);
-		exit(0);
-	}
-	if (ith < 0){
-		printf("The querying index can't be negative\n");
-		exit(0);
-	}
-	return string_vector[ith].m_word_number;
 }
 
 void AlgParser::swap(const int& ith, const int& jth)
 {
+	assert(ith < input_size && ith >= 0);
+	assert(jth < input_size && jth >= 0);
 	AlgString temp(string_vector[ith].m_string, string_vector[ith].m_word_number);
 	string_vector[ith].m_string = string_vector[jth].m_string;
 	string_vector[ith].m_word_number = string_vector[jth].m_word_number;
@@ -168,12 +145,15 @@ void AlgParser::heapsort(){
 
 void AlgParser::build_heap(){
 	heap_size = input_size;
-	for (int i = input_size/2; i >=0; i--) heapify(i);
+	for (int i = input_size/2; i >= 0; i--)
+		heapify(i);
 }
 
 void AlgParser::heapify(const int& i){
-	int l = 2 * i;
-	int r = 2 * i + 1;
+	int l = 2 * i + 1;
+	int r = 2 * i + 2;
+	assert(l < input_size && l >= 0);
+	assert(r < input_size && r >= 0);
 	int largest;
 	if (l < heap_size && string_vector[l] > string_vector[i]) largest = l;
 	else largest = i;
@@ -187,27 +167,24 @@ void AlgParser::heapify(const int& i){
 void AlgParser::quicksort(const int& left, const int& right){
 	if (left < right){
 		int p = partition(left, right);
-		quicksort(left, p);
-		quicksort(p+1, right);
+		quicksort(left, p - 1);
+		quicksort(p + 1, right);
 	}
 }
 
 int AlgParser::partition(const int& left, const int& right){
-	AlgString temp = string_vector[left];
-	int i = left;
-	int j = right;
+	AlgString temp = string_vector[right];
+	int i = left - 1;
+	int j = right + 1;
 	while (i < j){
-		while (string_vector[i] < temp) {
-			if (i == right) break;
-			else i++;
-		}
-		while (string_vector[j] > temp) {
-			if (j == left) break;
-			else j--;
-		}
+		while (string_vector[++i] < temp) if (i == right) break;
+		while (string_vector[--j] > temp) if (j == left) break;
+		assert(i <= right && i >= left);
+		assert(j <= right && j >= left);
 		if (i < j) swap(i, j);
 	}
-	return j;
+	swap(i, right);
+	return i;
 }
 
 void AlgParser::bubblesort(){
