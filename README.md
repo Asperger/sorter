@@ -10,7 +10,7 @@ Input:
   "m" for merge sort.
   "h" for heap sort.
   "q" for quick sort.
-  "b" for bubble sort
+  "b" for bubble sort.
   
 Output:
-  A text file with all the words sorted in alphabetical order and showing the sequential order of every word in input file. Ignoring all non-alphabetic character. Using space or newline as seperation of words.
+  A text file with all the words sorted in alphabetical order and showing the sequential order of every word in input file. Ignoring all non-alphabetic character. Using space or newline as seperation of words. If everything is fine, there will be a message on the command line saying "Sorting complete." It will also show the time cost on the command line.
