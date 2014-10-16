@@ -33,10 +33,7 @@ void AlgParser::Parse(const char* input_file_name)
 	string_vector.clear();
 	fstream fin;
 	fin.open(input_file_name, fstream::in);
-	if (!fin.is_open()){
-		cout << "Input file open error" << endl;
-		exit(0);
-	}
+	if (!fin.is_open()) return false;
 	int word_count = 0;
 	string s;
 	while (!fin.eof()){
@@ -46,26 +43,23 @@ void AlgParser::Parse(const char* input_file_name)
 		}
 	fin.close();
 	input_size = string_vector.size();
+	return true;
 }
 
 void AlgParser::Write(const char* output_file_name)
 {
 	fstream fout;
 	fout.open(output_file_name, fstream::out);
-	if (!fout.is_open()){
-		cout << "Output file open error" << endl;
-		exit(0);
-		}
+	if (!fout.is_open()) return false;
 	fout << input_size << endl;
 	for (int i = 0; i < input_size; i++)
 		fout << string_vector[i].m_string << " " << string_vector[i].m_word_number << endl;
 	fout.close();
+	return true;
 }
 
 void AlgParser::swap(const int& ith, const int& jth)
 {
-	assert(ith < input_size && ith >= 0);
-	assert(jth < input_size && jth >= 0);
 	AlgString temp(string_vector[ith].m_string, string_vector[ith].m_word_number);
 	string_vector[ith].m_string = string_vector[jth].m_string;
 	string_vector[ith].m_word_number = string_vector[jth].m_word_number;
@@ -134,7 +128,7 @@ void AlgParser::merge(const int& left, const int& mid, const int& right){
 }
 
 void AlgParser::heapsort(){
-	for (int i = (input_size - 2)/2; i >= 0; i--)
+	for (int i = (input_size - 2) / 2; i >= 0; i--)
 		heapify(i, input_size);
 	for (int i = input_size - 1; i > 0; i--){
 		swap(0, i);
