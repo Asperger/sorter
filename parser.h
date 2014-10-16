@@ -29,8 +29,8 @@ class AlgParser
 {
 	public:
 	AlgParser(){};
-	void Parse(const char*);
-	void Write(const char*);
+	bool Parse(const char*);
+	bool Write(const char*);
 	bool sort(const char*);
 	
 	private:
