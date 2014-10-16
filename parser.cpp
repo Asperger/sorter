@@ -28,7 +28,7 @@ int AlgString::cmp(AlgString s)
 	return 0;
 }
 
-void AlgParser::Parse(const char* input_file_name)
+bool AlgParser::Parse(const char* input_file_name)
 {
 	string_vector.clear();
 	fstream fin;
@@ -46,7 +46,7 @@ void AlgParser::Parse(const char* input_file_name)
 	return true;
 }
 
-void AlgParser::Write(const char* output_file_name)
+bool AlgParser::Write(const char* output_file_name)
 {
 	fstream fout;
 	fout.open(output_file_name, fstream::out);
