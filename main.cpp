@@ -6,14 +6,14 @@ int main(int argc, char** argv){
 	AlgParser p; 
 	AlgTimer t; 
 	// Pass the arguement 1 as the input file name 
-	p.Parse(argv[1]);
+	if (!p.Parse(argv[1])) {cout << "Input file open error" << endl; return 1;}
 	// Start timer 
 	t.Begin(); 
 	// Start sorting
 	if (p.sort(argv[3])) cout << "Sorting complete" << endl;
 	else {cout << "Illegal algorithm" << endl; return 1;}
 	// Write the result
-	p.Write(argv[2]);
+	if (!p.Write(argv[2])) {cout << "Output file open error" << endl; return 1;}
 	// Display the accumulated time 
 	cout << "The execution spends " << t.End() << " seconds" << endl; 
 	//getchar();
