@@ -1,6 +1,5 @@
 #include "parser.h"
 #include <cctype>
-#include <cassert>
 
 void AlgTimer::Begin(void)
 {
@@ -135,32 +134,24 @@ void AlgParser::merge(const int& left, const int& mid, const int& right){
 }
 
 void AlgParser::heapsort(){
-	build_heap();
+	for (int i = (input_size - 2)/2; i >= 0; i--)
+		heapify(i, input_size);
 	for (int i = input_size - 1; i > 0; i--){
 		swap(0, i);
-		heap_size--;
-		heapify(0);
+		heapify(0, i);
 	}
 }
 
-void AlgParser::build_heap(){
-	heap_size = input_size;
-	for (int i = input_size/2; i >= 0; i--)
-		heapify(i);
-}
-
-void AlgParser::heapify(const int& i){
+void AlgParser::heapify(const int& i, const int& size){
 	int l = 2 * i + 1;
 	int r = 2 * i + 2;
-	assert(l < input_size && l >= 0);
-	assert(r < input_size && r >= 0);
 	int largest;
-	if (l < heap_size && string_vector[l] > string_vector[i]) largest = l;
+	if (l < size && string_vector[l] > string_vector[i]) largest = l;
 	else largest = i;
-	if (r < heap_size && string_vector[r] > string_vector[largest]) largest = r;
+	if (r < size && string_vector[r] > string_vector[largest]) largest = r;
 	if (largest != i){
 		swap(i, largest);
-		heapify(largest);
+		heapify(largest, size);
 	}
 }
 
@@ -179,8 +170,6 @@ int AlgParser::partition(const int& left, const int& right){
 	while (i < j){
 		while (string_vector[++i] < temp) if (i == right) break;
 		while (string_vector[--j] > temp) if (j == left) break;
-		assert(i <= right && i >= left);
-		assert(j <= right && j >= left);
 		if (i < j) swap(i, j);
 	}
 	swap(i, right);
