@@ -29,28 +29,19 @@ class AlgParser
 {
 	public:
 	AlgParser(){};
-	// Specify the parsing file name and then parse the file
 	void Parse(const char*);
-	// Write the sorted data to the specified file
 	void Write(const char*);
-	// Return the ith string in the file
-	string QueryString(const int&);
-	// Return the number of the ith string in the file
-	int QueryWordNumber(const int&);
-	
 	bool sort(const char*);
 	
 	private:
 	vector<AlgString> string_vector;
 	int input_size;
-	int heap_size;
 	void swap(const int&, const int&);
 	void insertionsort();
 	void mergesort(const int&, const int&);
 	void merge(const int&, const int&, const int&);
 	void heapsort();
-	void build_heap();
-	void heapify(const int&);
+	void heapify(const int&, const int&);
 	void quicksort(const int&, const int&);
 	int partition(const int&, const int&);
 	void bubblesort();
@@ -60,9 +51,7 @@ class AlgTimer
 {
 	public:
 	AlgTimer(){};
-	// Start the timer
 	void Begin();
-	// Return the accumulated time in seconds
 	double End();
 	
 	private:
